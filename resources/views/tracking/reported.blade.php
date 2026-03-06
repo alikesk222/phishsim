@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You — PhishSim</title>
+  <title>PhishSim</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-gray-950 text-gray-100 flex items-center justify-center px-4">
@@ -15,15 +15,13 @@
     </svg>
   </div>
 
-  <h1 class="text-2xl font-bold text-green-400 mb-2">Well done!</h1>
-  <p class="text-gray-400 mb-6">
-    You correctly identified and reported this phishing simulation. Your security instincts are sharp.
-  </p>
+  <h1 class="text-2xl font-bold text-green-400 mb-2">{{ __('tracking.reported_title') }}</h1>
+  <p class="text-gray-400 mb-6">{{ __('tracking.reported_subtitle') }}</p>
 
   <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 text-left text-sm text-gray-400">
-    <p class="font-semibold text-white mb-2">This was a test</p>
-    <p>Your organization runs phishing simulations to train employees to recognize real attacks. Reporting suspicious emails — even simulated ones — is exactly the right behavior.</p>
-    <p class="mt-3">Keep it up! If you ever receive a real suspicious email, report it to your IT security team immediately.</p>
+    <p class="font-semibold text-white mb-2">{{ __('tracking.reported_was_test') }}</p>
+    <p>{{ __('tracking.reported_desc') }}</p>
+    <p class="mt-3">{{ __('tracking.reported_keep_up') }}</p>
   </div>
 </div>
 

@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Employees')
+@section('title', __('employees.title'))
 
 @section('content')
 <div class="flex items-center justify-between mb-6">
   <div>
-    <h1 class="text-2xl font-bold">Employees</h1>
-    <p class="text-gray-500 text-sm mt-1">{{ $employees->total() }} employees in your organization</p>
+    <h1 class="text-2xl font-bold">{{ __('employees.title') }}</h1>
+    <p class="text-gray-500 text-sm mt-1">{{ trans('employees.subtitle', ['count' => $employees->total()]) }}</p>
   </div>
   <div class="flex gap-3">
     <form method="POST" action="{{ route('employees.import') }}" enctype="multipart/form-data" class="flex items-center gap-2">
       @csrf
       <label class="text-sm text-gray-400 hover:text-white cursor-pointer">
-        <span class="bg-gray-800 border border-gray-700 px-3 py-2 rounded-lg text-sm hover:border-gray-600 transition-colors">Import CSV</span>
+        <span class="bg-gray-800 border border-gray-700 px-3 py-2 rounded-lg text-sm hover:border-gray-600 transition-colors">{{ __('employees.import_csv') }}</span>
         <input type="file" name="csv" accept=".csv" class="hidden" onchange="this.form.submit()">
       </label>
     </form>
     <a href="{{ route('employees.create') }}"
       class="bg-red-600 hover:bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">
-      + Add Employee
+      {{ __('employees.add_employee') }}
     </a>
   </div>
 </div>
@@ -26,7 +26,7 @@
 {{-- Search --}}
 <form method="GET" class="mb-4">
   <input type="text" name="search" value="{{ request('search') }}"
-    placeholder="Search by name, email, or department..."
+    placeholder="{{ __('employees.search_placeholder') }}"
     class="w-full max-w-md bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-red-500">
 </form>
 
@@ -35,10 +35,10 @@
     <svg class="w-12 h-12 text-gray-700 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
     </svg>
-    <p class="text-gray-400 font-medium mb-1">No employees found</p>
-    <p class="text-gray-600 text-sm mb-4">Add employees manually or import a CSV file.</p>
+    <p class="text-gray-400 font-medium mb-1">{{ __('employees.no_employees') }}</p>
+    <p class="text-gray-600 text-sm mb-4">{{ __('employees.no_employees_desc') }}</p>
     <a href="{{ route('employees.create') }}" class="bg-red-600 hover:bg-red-500 text-white text-sm px-4 py-2 rounded-lg transition-colors">
-      Add Employee
+      {{ __('employees.add_btn') }}
     </a>
   </div>
 @else
@@ -46,12 +46,12 @@
     <table class="w-full text-sm">
       <thead>
         <tr class="border-b border-gray-800 text-gray-500 text-xs uppercase tracking-wide">
-          <th class="text-left px-5 py-3">Name</th>
-          <th class="text-left px-5 py-3">Email</th>
-          <th class="text-left px-5 py-3">Department</th>
-          <th class="text-left px-5 py-3">Risk Level</th>
-          <th class="text-left px-5 py-3">Phished</th>
-          <th class="text-left px-5 py-3">Active</th>
+          <th class="text-left px-5 py-3">{{ __('employees.name') }}</th>
+          <th class="text-left px-5 py-3">{{ __('employees.email') }}</th>
+          <th class="text-left px-5 py-3">{{ __('employees.department') }}</th>
+          <th class="text-left px-5 py-3">{{ __('employees.risk_level') }}</th>
+          <th class="text-left px-5 py-3">{{ __('employees.phished_count') }}</th>
+          <th class="text-left px-5 py-3">{{ __('employees.active_col') }}</th>
           <th class="px-5 py-3"></th>
         </tr>
       </thead>
@@ -67,7 +67,7 @@
                 {{ $employee->risk_level === 'high' ? 'bg-orange-900/40 text-orange-400' : '' }}
                 {{ $employee->risk_level === 'medium' ? 'bg-yellow-900/40 text-yellow-400' : '' }}
                 {{ $employee->risk_level === 'low' ? 'bg-green-900/40 text-green-400' : '' }}
-              ">{{ ucfirst($employee->risk_level) }}</span>
+              ">{{ __('common.' . $employee->risk_level) }}</span>
             </td>
             <td class="px-5 py-4 text-gray-400">{{ $employee->phished_count }}x</td>
             <td class="px-5 py-4">
@@ -83,7 +83,9 @@
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="text-gray-600 hover:text-red-400 text-xs"
-                    onclick="return confirm('Delete {{ $employee->full_name }}?')">Delete</button>
+                    onclick="return confirm('{{ trans('employees.delete_confirm', ['name' => $employee->full_name]) }}')">
+                    {{ __('common.delete') }}
+                  </button>
                 </form>
               </div>
             </td>

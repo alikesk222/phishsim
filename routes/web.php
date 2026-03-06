@@ -7,6 +7,15 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\TrackingController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
+// ── Language switcher ─────────────────────────────────────────────────────────
+Route::get('/lang/{locale}', function (Request $request, string $locale) {
+    if (in_array($locale, ['en', 'tr'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back()->withInput();
+})->name('lang.switch');
 
 // ── Public tracking routes (no auth — accessed by phishing targets) ──────────
 Route::prefix('t')->name('track.')->group(function () {
