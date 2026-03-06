@@ -30,7 +30,7 @@
 - Composer
 - `pdo_sqlite` and `mbstring` PHP extensions
 
-### Install
+### Install (Local)
 
 ```bash
 git clone https://github.com/alikesk222/phishsim
@@ -48,6 +48,39 @@ Open [http://localhost:8000](http://localhost:8000) and register your organizati
 > ```bash
 > php -d extension=pdo_sqlite -d extension=mbstring artisan migrate --seed
 > ```
+
+### Deploy to Railway
+
+Railway auto-detects Laravel via Nixpacks — no Docker needed.
+
+```bash
+# 1. Install Railway CLI
+npm install -g @railway/cli
+
+# 2. Login and init
+railway login
+railway init
+
+# 3. Deploy
+railway up
+```
+
+Then in the Railway dashboard → **Variables**, add:
+
+| Variable | Value |
+|----------|-------|
+| `APP_KEY` | output of `php artisan key:generate --show` |
+| `APP_ENV` | `production` |
+| `APP_DEBUG` | `false` |
+| `APP_URL` | your Railway public URL |
+| `DB_CONNECTION` | `sqlite` |
+| `DB_DATABASE` | `/app/database/database.sqlite` |
+| `SESSION_DRIVER` | `file` |
+| `CACHE_STORE` | `file` |
+
+See `.env.railway.example` for the full list.
+
+On first deploy, Railway will automatically run migrations and seed the 8 phishing templates.
 
 ---
 
